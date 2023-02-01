@@ -13,6 +13,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource stepSound;
     [SerializeField] private AudioClip[] stepSounds;
 
+    /*[Header("Dialogue is Coming: ")] 
+    [SerializeField] private GameObject textDialogue;
+    [SerializeField] private DialogueManager dialogue;*/
+    
     [Header("Flashlight Settings: ")] 
     [SerializeField] private AudioSource flashLightSound;
     [SerializeField] private GameObject flashLight;

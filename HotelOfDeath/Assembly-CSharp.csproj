@@ -52,11 +52,21 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Enemy\AlertState.cs" />
+     <Compile Include="Assets\Scripts\UI\DialogueData.cs" />
+     <Compile Include="Assets\Scripts\Player\BoppingScript.cs" />
+     <Compile Include="Assets\Scripts\Enemy\ChaseState.cs" />
+     <Compile Include="Assets\Scripts\UI\DialogueManager.cs" />
+     <Compile Include="Assets\Scripts\Enemy\WanderingState.cs" />
      <Compile Include="Assets\Scripts\Player\CameraMovement.cs" />
-     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
-     <Compile Include="Assets\Flickering.cs" />
-     <Compile Include="Assets\PlayerIsClose.cs" />
+     <Compile Include="Assets\Scripts\UI\BeginSequence.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyAI.cs" />
      <Compile Include="Assets\GoToNextSceneDoor.cs" />
+     <Compile Include="Assets\Scripts\Enemy\StateMachine.cs" />
+     <Compile Include="Assets\Flickering.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\PlayerIsClose.cs" />
+     <Compile Include="Assets\Scripts\Enemy\State.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
