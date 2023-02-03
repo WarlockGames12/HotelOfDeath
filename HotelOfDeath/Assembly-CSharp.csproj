@@ -65,8 +65,10 @@
      <Compile Include="Assets\Scripts\Enemy\StateMachine.cs" />
      <Compile Include="Assets\Flickering.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\PlayerBopper.cs" />
      <Compile Include="Assets\PlayerIsClose.cs" />
      <Compile Include="Assets\Scripts\Enemy\State.cs" />
+     <Compile Include="Assets\ButtonScript.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

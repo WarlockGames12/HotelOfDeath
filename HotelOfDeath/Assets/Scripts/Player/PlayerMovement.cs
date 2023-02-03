@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
 
     [Header("Player Movement: ")]
-    [SerializeField] [Range(0, 12)] private float playerSpeed;
+    [SerializeField] [Range(0, 100)] private float playerSpeed;
     [SerializeField] [Range(-10, 10)] private float playerGravity;
+    private float minSpeed = 10f;
+    private float maxSpeed = 20f;
 
     [Header("Step Sound Settings: ")] 
     [SerializeField] private AudioSource stepSound;
     [SerializeField] private AudioClip[] stepSounds;
 
+    [Header("Bopcurve")] 
+    private AnimationCurve _animateCurve;
+    [SerializeField] private Animator playOnly;
+    
     /*[Header("Dialogue is Coming: ")] 
     [SerializeField] private GameObject textDialogue;
     [SerializeField] private DialogueManager dialogue;*/
@@ -35,6 +42,12 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        _animateCurve = new AnimationCurve();
+        _animateCurve.AddKey(0, 0f);
+        _animateCurve.AddKey(0.15f, 0.3f);
+        _animateCurve.AddKey(0.3f, 0f);
+        
+        playOnly.enabled = false;
         _playerController = GetComponent<CharacterController>();
     }
 
@@ -47,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
         {
             ToggleLight();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            playerSpeed = maxSpeed;
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+            playerSpeed = minSpeed;
     }
     
     private void ToggleLight()
@@ -62,11 +80,21 @@ public class PlayerMovement : MonoBehaviour
 
         var thisTransform = transform;
         var playerMoves = thisTransform.right * _moveX + thisTransform.forward * _moveY;
-        _playerController.Move(playerMoves * playerSpeed * Time.deltaTime);
-
+        playerSpeed = playerMoves.magnitude;
+        
+        playerSpeed = Mathf.Clamp(playerSpeed, minSpeed, maxSpeed);
+        
         if (_moveX != 0 || _moveY != 0)
         {
             PlayStepSound();
+            playOnly.enabled = true;
+            var bop = _animateCurve.Evaluate(Time.time) * playerSpeed;
+            _playerController.Move(playerMoves * playerSpeed * Time.deltaTime + new Vector3(0,bop,0));
+        }
+        else
+        {
+            playOnly.enabled = false;
+            _playerController.Move(playerMoves * playerSpeed * Time.deltaTime + new Vector3(0,0,0));
         }
         
         _playerVelocity.y += playerGravity * Time.deltaTime;

@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 7465283934496686694}
   - component: {fileID: 7465283934496686695}
   - component: {fileID: 7465283934496686688}
+  - component: {fileID: 6932923202231356317}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -325,6 +326,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 237
   playerBody: {fileID: 7465283934870000771}
+--- !u!114 &6932923202231356317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465283934496686692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc46a23381220041a54136078dc6008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7465283934603120817
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,6 +706,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b5ad11ebc90582740a58c30514d39aae, type: 3}
   - {fileID: 8300000, guid: 18d4434bfba84864b831a2b96ca483af, type: 3}
   - {fileID: 8300000, guid: 72fe01853f8fb1f4b81cc348cb276a59, type: 3}
+  animateCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   flashLightSound: {fileID: 7465283935704456250}
   flashLight: {fileID: 7465283935103105836}
 --- !u!1 &7465283935103105836
