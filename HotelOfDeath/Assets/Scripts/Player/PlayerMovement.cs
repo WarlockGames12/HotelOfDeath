@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,6 +7,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement: ")]
     [SerializeField] [Range(0, 100)] private float playerSpeed;
     [SerializeField] [Range(-10, 10)] private float playerGravity;
+
+    [Header("Sprint Settings: ")]
+    [SerializeField] [Range(0,15)] private float sprintDuration;
+    [SerializeField] [Range(0,10)] private float sprintCooldown;
+    private float _timeLeft;
     private float minSpeed = 10f;
     private float maxSpeed = 20f;
 
@@ -68,10 +69,25 @@ public class PlayerMovement : MonoBehaviour
             ToggleLight();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            playerSpeed = maxSpeed;
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _timeLeft <= 0)
+        {
             playerSpeed = minSpeed;
+            _timeLeft = sprintDuration;
+        }
+        else if (_timeLeft > 0)
+        {
+            playerSpeed = maxSpeed;
+            _timeLeft -= Time.deltaTime;
+        }
+        else if (_timeLeft <= 0 && playerSpeed == maxSpeed)
+        {
+            playerSpeed = minSpeed;
+            _timeLeft = sprintCooldown;
+        }
+        else if (_timeLeft > 0)
+        {
+            _timeLeft -= Time.deltaTime;
+        }
     }
     
     private void ToggleLight()
@@ -97,6 +113,13 @@ public class PlayerMovement : MonoBehaviour
             PlayStepSound();
             playOnly.enabled = true;
             var bop = _animateCurve.Evaluate(Time.time) * playerSpeed;
+            
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                playerSpeed = maxSpeed;
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+                playerSpeed = minSpeed;
+            
+            Debug.Log(playerSpeed);
             _playerController.Move(playerMoves * playerSpeed * Time.deltaTime + new Vector3(0,bop,0));
         }
         else
