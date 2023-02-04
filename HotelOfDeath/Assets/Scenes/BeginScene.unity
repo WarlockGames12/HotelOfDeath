@@ -3134,9 +3134,17 @@ PrefabInstance:
       value: 0.686
       objectReference: {fileID: 0}
     - target: {fileID: 7465283934870000770, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
+      propertyPath: pressE
+      value: 
+      objectReference: {fileID: 988940710}
+    - target: {fileID: 7465283934870000770, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
       propertyPath: playOnly
       value: 
       objectReference: {fileID: 514304856}
+    - target: {fileID: 7465283934870000770, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
+      propertyPath: isBeginning
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7465283934870000770, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
       propertyPath: playerSpeed
       value: 93.7
@@ -3380,6 +3388,14 @@ PrefabInstance:
     - target: {fileID: 7465283934870000775, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465283935704456250, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 872ab1a6017e40048b8029c48612e246, type: 3}
+    - target: {fileID: 7465283935704456250, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42d805ed2cc9d3d4f8de30fc239aaff2, type: 3}

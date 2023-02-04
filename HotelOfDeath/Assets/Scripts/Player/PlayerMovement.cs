@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource stepSound;
     [SerializeField] private AudioClip[] stepSounds;
 
+    [Header("Press E: ")]
+    [SerializeField] private GameObject pressE;
+    [SerializeField] private bool isBeginning;
+    
+    
     [Header("Bopcurve")] 
     private AnimationCurve _animateCurve;
     [SerializeField] private Animator playOnly;
@@ -70,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private void ToggleLight()
     {
         isLit = !isLit;
+        flashLightSound.Play();
         flashLight.SetActive(isLit);
     }
 
@@ -99,6 +107,21 @@ public class PlayerMovement : MonoBehaviour
         
         _playerVelocity.y += playerGravity * Time.deltaTime;
         _playerController.Move(_playerVelocity * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (pressE == null)
+            return;
+        if (other.gameObject.CompareTag("Door") && !isBeginning)
+        {
+            pressE.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        pressE.SetActive(false);
     }
 
     private void PlayStepSound()
