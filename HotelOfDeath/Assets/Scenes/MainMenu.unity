@@ -5860,7 +5860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -662, y: 201.3}
+  m_AnchoredPosition: {x: -492, y: 201.3}
   m_SizeDelta: {x: 500.8, y: 371}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1440118554
@@ -5896,7 +5896,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\t  Hotel \n\t\tof \n\t Death"
+  m_Text: The Carnage Hotel
 --- !u!222 &1440118555
 CanvasRenderer:
   m_ObjectHideFlags: 0
