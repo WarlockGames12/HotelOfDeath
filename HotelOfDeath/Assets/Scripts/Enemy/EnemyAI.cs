@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
 
-    private StateMachine _stateMachine;
+    [SerializeField] private StateMachine _stateMachine;
     
     // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
         _stateMachine = GetComponent<StateMachine>();
 
@@ -17,11 +16,5 @@ public class EnemyAI : MonoBehaviour
         _stateMachine.AddState(EnemyStates.Chase, GetComponent<ChaseState>());
         
         _stateMachine.SetState(EnemyStates.Wandering);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

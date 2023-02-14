@@ -1,25 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class WanderingState : State
 {
 
-    private StateMachine _stateMachine;
+    [SerializeField] private StateMachine _stateMachine;
 
     [Header("Wandering Settings: ")] 
     [SerializeField] private float sightRange = 10f;
     [SerializeField] private float hearingRange = 5f;
     [SerializeField] private float wanderRadius = 10f;
+    [SerializeField] private float wanderInterval = 5f;
     [SerializeField] private float wanderSpeed = 1f;
-    [SerializeField] private float chaseSpeed = 2f;
-    [SerializeField] private float pathfindingInterval;
+    [SerializeField] private Animator enemyAnimator;
+
+    [Header("Obstacle Avoidance Settings: ")] 
+    [SerializeField] private float raycastDistance = 2f;
+    [SerializeField] private float raycastAngle = 30f;
 
     private Transform _sawPlayer;
     private Vector3 _lastKnownPlayerPos;
     private Vector3 _wanderTarget;
+    private float _wanderTimer;
     private float _pathfindingTimer;
     private AudioSource _audioSource;
 
@@ -43,6 +44,13 @@ public class WanderingState : State
         {
             _stateMachine.SetState(EnemyStates.Alert);
         }
+
+        _wanderTimer += Time.deltaTime;
+        if (_wanderTimer >= wanderInterval)
+        {
+            _wanderTimer = 0f;
+            _wanderTarget = RandomWanderTarget();
+        }
     }
 
     private bool CanSeePlayer()
@@ -51,14 +59,10 @@ public class WanderingState : State
             return false;
 
         RaycastHit hit;
-        if (Physics.Linecast(transform.position, _sawPlayer.position, out hit))
-        {
-            _stateMachine.SetState(EnemyStates.Alert);
-            return hit.transform == _sawPlayer;
-        }
-            
+        if (!Physics.Linecast(transform.position, _sawPlayer.position, out hit)) return false;
+        _stateMachine.SetState(EnemyStates.Alert);
+        return hit.transform == _sawPlayer;
 
-        return false;
     }
 
     private bool CanHearPlayer()
@@ -70,25 +74,7 @@ public class WanderingState : State
         return _audioSource.isPlaying;
     }
 
-    private void Search()
-    {
-        _pathfindingTimer += Time.deltaTime;
-        if (_pathfindingTimer >= pathfindingInterval)
-        {
-            _pathfindingTimer = 0f;
-            if (!CanSeePlayer())
-            {
-                _stateMachine.SetState(EnemyStates.Wandering);
-            }
-        }
 
-        transform.position = Vector3.MoveTowards(transform.position, _lastKnownPlayerPos, chaseSpeed * Time.deltaTime);
-    }
-
-    private void Chase()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, _sawPlayer.position, chaseSpeed * Time.deltaTime);
-    }
 
     private Vector3 RandomWanderTarget()
     {
@@ -99,7 +85,38 @@ public class WanderingState : State
     
     public override void Act()
     {
-        throw new System.NotImplementedException();
+        enemyAnimator.SetBool("Walk", true);
+        transform.position = Vector3.MoveTowards(transform.position, _wanderTarget, wanderSpeed * Time.deltaTime);
+
+        if (CanHearPlayer())
+        {
+            _stateMachine.SetState(EnemyStates.Alert);
+        }
+        if (CanSeePlayer())
+        {
+            _stateMachine.SetState(EnemyStates.Alert);
+        }
+
+        var forward = transform.TransformDirection(Vector3.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, forward, out hit, raycastDistance))
+        {
+            // if is in obstacle range, change wander target to avoid it
+            Debug.Log("I am here");
+            var right = transform.TransformDirection(Vector3.right);
+            var left = transform.TransformDirection(Vector3.left);
+            var newTarget = _wanderTarget;
+
+            if (!Physics.Raycast(transform.position, right, out hit, raycastDistance))
+                newTarget += right * wanderRadius;
+            else if (!Physics.Raycast(transform.position, left, out hit, raycastDistance))
+                newTarget += left * wanderRadius;
+            else
+                newTarget = RandomWanderTarget();
+            _wanderTarget = newTarget;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, _wanderTarget, wanderSpeed * Time.deltaTime);
     }
 
     public override void Reason()

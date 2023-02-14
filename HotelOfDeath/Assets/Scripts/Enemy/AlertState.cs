@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class AlertState : State
 {
+
+    [SerializeField] private StateMachine stateMachine;
+    [SerializeField] private Animator enemyAnimator;
+    
     // Start is called before the first frame update
     void Start()
     {
